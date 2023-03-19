@@ -28,7 +28,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void register(BoardVO board) {
 		log.info("register" + board);
-		mapper.insertSelectKey(board); // 생성된 게시물 번호 확인
+		mapper.insertSelectKey(board); 
 	}
 
 	@Override

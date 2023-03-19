@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
@@ -16,16 +17,16 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 @RequestMapping("/board/*")
-@AllArgsConstructor // ¾È¾²¸é @Setter »ç¿ë
+@AllArgsConstructor 
 public class BoardController {
 	
 	private BoardService service;
 	
-	// ¸ñ·Ï
 	@GetMapping("/list")
 	public String list(Model model) {
 		log.info(">>>>>>>> list");
-		model.addAttribute("list", service.getList());
+		Model result = model.addAttribute("list", service.getList());
+		log.info("list Result = " + result);
 		return "board/list";
 	}
 	
@@ -33,8 +34,13 @@ public class BoardController {
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register : " + board);
 		service.register(board);
-		rttr.addFlashAttribute("result", board.getBno()); // rttr.addAttribute·Î Àü´ŞÇÑ °ªÀº urlµÚ¿¡  ºÙÀ¸¸ç, rttr.addFlashAttribute·Î Àü´ŞÇÑ °ªÀº urlµÚ¿¡ ºÙÁö ¾Ê´Â´Ù. 
+		rttr.addFlashAttribute("result", board.getBno()); 
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/register")
+	public void register() {
+		// ì…ë ¥ í˜ì´ì§€ë¥¼ ë³´ì—¬ì£¼ëŠ” ì—­í• 
 	}
 	
 	@GetMapping("/get")
@@ -60,10 +66,4 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
-	
-	
-	
-	
-	
-
 }
